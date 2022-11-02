@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
+	db "github.com/JILSE7/simplebank/db/sqlc"
 	"github.com/gin-gonic/gin"
-	db "github.com/jilse17/simplebank/db/sqlc"
 )
 
 type createAccountRequest struct {

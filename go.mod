@@ -1,12 +1,8 @@
-module github.com/jilse17/simplebank
+module github.com/JILSE7/simplebank
 
 go 1.19
 
-require (
-	github.com/golang/mock v1.6.0
-	github.com/lib/pq v1.10.7
-	github.com/phihdn/simplebank v0.0.0-20220513093431-0c5e1f1cb326
-)
+require github.com/lib/pq v1.10.7
 
 require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
@@ -15,6 +11,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/goccy/go-json v0.9.11 // indirect
+	github.com/golang/mock v1.4.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect

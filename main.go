@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/jilse17/simplebank/api"
-	db "github.com/jilse17/simplebank/db/sqlc"
-	"github.com/jilse17/simplebank/utils"
+	"github.com/JILSE7/simplebank/api"
+	db "github.com/JILSE7/simplebank/db/sqlc"
+	"github.com/JILSE7/simplebank/utils"
 	_ "github.com/lib/pq" // pq to talk with the DB important
 )
 
