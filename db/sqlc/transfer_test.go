@@ -10,8 +10,8 @@ import (
 
 func createRandomTransfer(t *testing.T) Transfer {
 	arg := CreateTransferParams{
-		FromAccountID: utils.RandomInt(1, 10),
-		ToAccountID:   utils.RandomInt(1, 10),
+		FromAccountID: utils.RandomInt(10, 15),
+		ToAccountID:   utils.RandomInt(16, 20),
 		Amount:        utils.RandomMoney(),
 	}
 
@@ -54,8 +54,8 @@ func TestGetTransfer(t *testing.T) {
 }
 
 func TestListTranfers(t *testing.T) {
-	fromId := utils.RandomInt(4, 5)
-	toId := utils.RandomInt(5, 10)
+	fromId := utils.RandomInt(10, 15)
+	toId := utils.RandomInt(16, 20)
 	for i := 0; i < 10; i++ {
 		createRandomTransferById(t, fromId, toId)
 	}
