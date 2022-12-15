@@ -2,17 +2,18 @@ package api
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
 
 	db "github.com/JILSE7/simplebank/db/sqlc"
+	"github.com/JILSE7/simplebank/token"
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
 )
 
 type createAccountRequest struct {
-	Owner    string `json:"owner" binding:"required"`
 	Currency string `json:"currency"  binding:"required,currency"`
 }
 
@@ -24,9 +25,11 @@ func (s *Server) createAccountFactory(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
+	// Get payload from the middleware
+	authorizationPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 
 	arg := db.CreateAccountParams{
-		Owner:    req.Owner,
+		Owner:    authorizationPayload.Username,
 		Balance:  0,
 		Currency: req.Currency,
 	}
@@ -75,6 +78,15 @@ func (s *Server) getAccountById(ctx *gin.Context) {
 		return
 	}
 
+	// Get payload from the middleware
+	authorizationPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+	// Checking if the owner and payload.userna are the same
+	if account.Owner != authorizationPayload.Username {
+		err := errors.New("account doesn´t belong to the authentication user")
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+
 	ctx.JSON(http.StatusOK, account)
 }
 
@@ -92,9 +104,13 @@ func (server *Server) listAccounts(ctx *gin.Context) {
 		return
 	}
 	fmt.Println((req.PageID - 1) * req.PageSize)
+	// Get payload from the middleware
+	authorizationPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
+
 	arg := db.ListAccountsParams{
 		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
+		Owner:  authorizationPayload.Username,
 	}
 
 	accounts, err := server.store.ListAccounts(ctx, arg)
